@@ -1,24 +1,36 @@
-import {useState} from 'react'
+import { useState } from 'react';
 
-const Logo = () => {
-  const style = {
-    width: '249.56px',
-    height: '100px'
-  }
+const Logo = ({ label }) => {
+  const [logo, setLogo] = useState(null);
 
-  const [logo, setLogo] = useState(null)
-  
   const handleLogo = (e) => {
-    setLogo(e.target.files[0])
-  }
+    setLogo(e.target.files[0]);
+  };
 
   return (
-    <div>
-      <label htmlFor="logo">Logo</label>
-      <input type="file" id="logo" onChange={handleLogo} />
-      {logo && <img src={URL.createObjectURL(logo)} style={style} alt="logo" />}
+    <div className="mb-4">
+      <label className="block mb-2 font-bold">{label}</label>
+      <input 
+        type="file" 
+        id="logo" 
+        onChange={handleLogo}
+        className="hidden"
+      />
+      <label
+       htmlFor="logo" 
+       className="block text-center w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200 focus:outline-none px-4 py-2"
+      >
+        {logo ? "Arquivo escolhido: " + logo.name : "Selecione um Arquivo" }
+      </label>
+      {logo && (
+        <img 
+          src={URL.createObjectURL(logo)} 
+          alt="logo"
+          className="mt-4 object-cover"
+        />
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Logo
+export default Logo;

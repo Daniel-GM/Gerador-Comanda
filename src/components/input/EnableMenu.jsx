@@ -1,9 +1,37 @@
-import React from 'react'
+import { useState } from "react";
 
-const EnableMenu = () => {
+const EnableMenu = ({ label, init }) => {
+  const [checked, setChecked] = useState(init);
+
   return (
-    <div>EnableMenu</div>
-  )
-}
+    <div className="mb-4">
+      <label className="block mb-2 font-bold">{label}</label>
+      
+      <div
+        className="relative inline-block w-12 h-6 cursor-pointer"
+        onClick={() => setChecked(!checked)}
+      >
+        <div
+          className={`absolute top-0 left-0 w-full h-full rounded-full transition-colors ${
+            checked ? "bg-green-500" : "bg-gray-400/50"
+          }`}
+        ></div>
 
-export default EnableMenu
+        <div
+          className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+            checked ? "translate-x-6" : "translate-x-0"
+          }`}
+        ></div>
+      </div>
+
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
+        className="hidden"
+      />
+    </div>
+  );
+};
+
+export default EnableMenu;
