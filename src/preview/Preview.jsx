@@ -1,6 +1,11 @@
 import { useState } from 'react'
+import QRCode from 'react-qr-code';
+
 
 const Preview = ({ cardapio, logo }) => {
+  const [qrcodeValue, setQrCodeValue] = useState('https://menu.sigedelivery.com.br/consulta/#/?table=menu1&domain=menu');
+
+
   const styleBackground = {
     height: "508px",
     width: "288px",
@@ -46,9 +51,15 @@ const Preview = ({ cardapio, logo }) => {
         ) : null
       }
       {/* QR code */}
-      
-      {/* logo telecom/sigesis */}
-      {/* Número da comanda */}
+      <div>
+        <QRCode
+          value={qrcodeValue}
+          size={230}
+          className='mt-4 bg-white p-3 rounded-lg'
+        />
+        {/* logo telecom/sigesis */}
+        {/* Número da comanda */}
+      </div>
       {/* Rodapé */}
     </div>
   )
