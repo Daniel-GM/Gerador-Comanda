@@ -14,20 +14,39 @@ const Preview = ({ cardapio, logo }) => {
     maxHeight: "100px",
     maxWidth: "250px"
   }
-  
+
+  const styleFont = {
+    fontFamily: "Poppins, sans-serif",
+    fontWeight: "300",
+    textAlign: "center"
+  }
+
   return (
-    <div 
+    <div
       style={styleBackground}
       className='flex flex-col items-center'
     >
       {/* Logo cliente */}
-      <img 
-        src={logo} 
-        alt="Logo do cliente" 
+      <img
+        src={logo}
+        alt="Logo do cliente"
         style={styleLogo}
         className='mt-2'
       />
+      {/* Cardápio Digital */}
+      {
+        cardapio ? (
+          <h2
+           className="flex flex-col items-center text-white text-3xl"
+           style={styleFont}
+          >
+            Acesse o nosso<br/>
+            Cardápio Digital
+          </h2>
+        ) : null
+      }
       {/* QR code */}
+      
       {/* logo telecom/sigesis */}
       {/* Número da comanda */}
       {/* Rodapé */}
