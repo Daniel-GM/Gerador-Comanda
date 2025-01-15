@@ -42,10 +42,10 @@ const Preview = ({ cardapio, logo }) => {
       {
         cardapio ? (
           <h2
-           className="flex flex-col items-center text-white text-3xl"
-           style={styleFont}
+            className="flex flex-col items-center text-white text-3xl"
+            style={styleFont}
           >
-            Acesse o nosso<br/>
+            Acesse o nosso<br />
             Cardápio Digital
           </h2>
         ) : null
@@ -59,6 +59,15 @@ const Preview = ({ cardapio, logo }) => {
         />
         {/* logo telecom/sigesis */}
         {/* Número da comanda */}
+        {
+          (!cardapio) ? (
+            <h3
+              className="text-black text-2xl py-4 px-6 bg-white rounded-lg font-bold"
+              style={styleFont}>
+              1
+            </h3>
+          ) : null
+        }
       </div>
       {/* Rodapé */}
     </div>
