@@ -3,13 +3,18 @@ import { useState } from "react";
 const EnableMenu = ({ label, init }) => {
   const [checked, setChecked] = useState(init);
 
+  const handleToggle = () => {
+    const newChecked = !checked;
+    setChecked(newChecked);
+  };
+
   return (
     <div className="mb-4">
       <label className="block mb-2 font-bold">{label}</label>
       
       <div
         className="relative inline-block w-12 h-6 cursor-pointer"
-        onClick={() => setChecked(!checked)}
+        onClick={handleToggle}
       >
         <div
           className={`absolute top-0 left-0 w-full h-full rounded-full transition-colors ${
@@ -27,7 +32,7 @@ const EnableMenu = ({ label, init }) => {
       <input
         type="checkbox"
         checked={checked}
-        onChange={(e) => setChecked(e.target.checked)}
+        onChange={() => {}}
         className="hidden"
       />
     </div>

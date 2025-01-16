@@ -12,6 +12,11 @@ import Preview from './preview/preview'
 
 function App() {
   const [logo, setLogo] = useState('menu-white.png')
+  const [height, setHeight] = useState(60)
+  const [width, setWidth] = useState(187)
+  const [maxHeight, setmaxHeight] = useState(124)
+  const [maxWidth, setmaxWidth] = useState(250)
+  
 
   return (
     <div className="min-h-screen bg-gray-900">
@@ -30,8 +35,18 @@ function App() {
               <CountCommand label="Número Final" init={2} />
             </div>
             <div className="grid grid-cols-2 gap-4">
-              <Dimension label="Altura:" init={100} />
-              <Dimension label="Largura:" init={250} />
+              <Dimension 
+                label="Altura:" 
+                init={60} 
+                max={maxHeight} 
+                onChange={(value) => setHeight(value)}
+              />
+              <Dimension 
+                label="Largura:" 
+                init={187} 
+                max={maxWidth} 
+                onChange={(value) => setWidth(value)}
+              />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <ColorSeletion label="Cor da Comanda" init={"#0A7269"} />
@@ -42,8 +57,22 @@ function App() {
           </div>
 
           <div className="p-6 rounded-lg shadow-sm mx-auto grid grid-cols-2 gap-4">
-            <Preview cardapio={false} logo={ logo } />
-            <Preview cardapio={true} logo={ logo } />
+            <Preview 
+              cardapio={false} 
+              logo={ logo } 
+              height={height} 
+              width={width} 
+              maxHeight={maxHeight}
+              maxWidth={maxWidth}
+            />
+            <Preview 
+              cardapio={true} 
+              logo={ logo } 
+              height={height} 
+              width={width} 
+              maxHeight={maxHeight}
+              maxWidth={maxWidth}
+            />
           </div>
         </div>
       </div>
