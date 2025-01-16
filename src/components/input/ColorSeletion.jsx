@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 
 const ColorSeletion = ({ label, init, onChange }) => {
   const [color, setColor] = useState(init)
@@ -21,4 +21,4 @@ const ColorSeletion = ({ label, init, onChange }) => {
   )
 }
 
-export default ColorSeletion
+export default memo(ColorSeletion)

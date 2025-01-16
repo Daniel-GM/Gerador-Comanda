@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 
 const CountCommand = ({ label, init, onChange }) => {
   const [count, setCount] = useState(init)
@@ -21,4 +21,4 @@ const CountCommand = ({ label, init, onChange }) => {
   )
 }
 
-export default CountCommand
+export default memo(CountCommand)

@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import QRCode from 'react-qr-code';
 
+const MemoizedQRCode = memo(QRCode);
 
 const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth, number, colorCommand, colorText }) => {
   const [qrcodeValue, setQrCodeValue] = useState('https://menu.sigedelivery.com.br/consulta/#/?table=menu1&domain=menu');
@@ -66,7 +67,7 @@ const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth, number, c
       }
       {/* QR code */}
       <div>
-        <QRCode
+        <MemoizedQRCode
           value={qrcodeValue}
           size={230}
           className={`mt-2 bg-white p-3 ${cardapio ? "rounded-lg" : "rounded-t-lg"}`}

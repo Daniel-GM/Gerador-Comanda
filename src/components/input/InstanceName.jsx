@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 
 const InstanceName = ({ label, onChange }) => {
   const [instanceName, setInstanceName] = useState('')
@@ -21,4 +21,4 @@ const InstanceName = ({ label, onChange }) => {
   )
 }
 
-export default InstanceName
+export default memo(InstanceName)

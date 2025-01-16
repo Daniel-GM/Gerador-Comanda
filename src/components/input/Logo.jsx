@@ -1,21 +1,21 @@
-import { useState } from 'react';
+import { useState, memo } from 'react'
 
 const Logo = ({ label, onChange  }) => {
-  const [logo, setLogo] = useState(null);
-  const [nameLogo, setNameLogo] = useState(null);
+  const [logo, setLogo] = useState(null)
+  const [nameLogo, setNameLogo] = useState(null)
 
   const handleLogo = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const file = e.target.files[0]
+    if (!file) return
     
-    setNameLogo(file.name);
-    const reader = new FileReader();
+    setNameLogo(file.name)
+    const reader = new FileReader()
     reader.onload = () => {
-      setLogo(reader.result);
-      onChange(reader.result);
-    };    
-    reader.readAsDataURL(file);
-  };
+      setLogo(reader.result)
+      onChange(reader.result)
+    }    
+    reader.readAsDataURL(file)
+  }
 
   return (
     <div className="mb-4">
@@ -41,7 +41,7 @@ const Logo = ({ label, onChange  }) => {
         />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Logo;
+export default memo(Logo)

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, memo } from 'react'
 
 const Dimension = ({ label, init, max, onChange }) => {
   const [value, setValue] = useState(init)
@@ -24,4 +24,4 @@ const Dimension = ({ label, init, max, onChange }) => {
   )
 }
 
-export default Dimension
+export default memo(Dimension)
