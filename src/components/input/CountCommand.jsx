@@ -1,7 +1,12 @@
 import { useState } from 'react'
 
-const CountCommand = ({ label, init }) => {
+const CountCommand = ({ label, init, onChange }) => {
   const [count, setCount] = useState(init)
+
+  const handleChange = (value) => {
+    setCount(value)
+    onChange(value)
+  }
 
   return (
     <div>
@@ -9,7 +14,7 @@ const CountCommand = ({ label, init }) => {
       <input
         type="number"
         value={count}
-        onChange={(e) => setCount(e.target.value)} 
+        onChange={(e) => handleChange(e.target.value)}
         className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:outline-none px-4 py-2"
       />
     </div>

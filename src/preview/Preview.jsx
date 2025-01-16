@@ -2,16 +2,15 @@ import { useState } from 'react'
 import QRCode from 'react-qr-code';
 
 
-const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth }) => {
+const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth, number, colorCommand, colorText }) => {
   const [qrcodeValue, setQrCodeValue] = useState('https://menu.sigedelivery.com.br/consulta/#/?table=menu1&domain=menu');
-
 
   const styleBackground = {
     height: "508px",
     width: "288px",
     maxHeight: "508px",
     maxWidth: "288px",
-    backgroundColor: "rgb(10, 114, 105)",
+    backgroundColor: colorCommand,
     border: "1px solid #fff"
   }
 
@@ -23,6 +22,7 @@ const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth }) => {
   const styleFont = {
     fontFamily: "Poppins, sans-serif",
     fontWeight: "300",
+    color: colorText,
     textAlign: "center"
   }
 
@@ -56,7 +56,7 @@ const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth }) => {
       {
         cardapio ? (
           <h2
-            className="flex flex-col items-center text-white text-xl"
+            className="flex flex-col items-center text-xl"
             style={styleFont}
           >
             Acesse o nosso<br />
@@ -71,7 +71,7 @@ const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth }) => {
           size={230}
           className={`mt-2 bg-white p-3 ${cardapio ? "rounded-lg" : "rounded-t-lg"}`}
         />
-        {/* logo telecom/sigesis */}
+        {/* logo sigesis */}
         {/* Número da comanda */}
         {
           (!cardapio) ? (
@@ -79,7 +79,7 @@ const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth }) => {
               className="text-black text-2xl py-1 px-6 bg-white rounded-b-lg font-bold"
               style={styleNumber}
             >
-              1
+              {number}
             </h3>
           ) : null
         }
@@ -89,14 +89,14 @@ const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth }) => {
       {
         (!cardapio) ? (
           <p
-            className="text-white text-2xl mb-2"
+            className="text-2xl mb-2"
             style={styleFont}
           >
             www.sigesis.com.br
           </p>
         ) : (
           <p
-            className="text-white text-xl mt-1 mb-2 flex flex-col items-center"
+            className="text-xl mt-1 mb-2 flex flex-col items-center"
             style={styleFont}
           >
             Desenvolvido por
