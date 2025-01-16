@@ -28,7 +28,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-900">
       <div className="container mx-auto p-6 ">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 ">
+        <div className="grid grid-cols-1 custom-lg:grid-cols-2 gap-8 ">
           <div className="space-y-4 bg-gray-800/50 p-6 border-gray-700 border-2 rounded-lg shadow-sm">
             <h2 className="text-2xl font-bold text-white">Configurações</h2>
             <Logo 
@@ -81,7 +81,7 @@ function App() {
             <Generate label="Gerar Comanda" />
           </div>
 
-          <div className="p-6 rounded-lg shadow-sm mx-auto grid grid-cols-2 gap-4">
+          <div className="p-6 rounded-lg shadow-sm mx-auto grid grid-cols-1  md:grid-cols-2 gap-4">
             <Preview 
               cardapio={false} 
               logo={logo} 

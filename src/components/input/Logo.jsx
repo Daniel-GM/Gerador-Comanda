@@ -29,7 +29,7 @@ const Logo = ({ label, onChange  }) => {
       />
       <label
        htmlFor="logo" 
-       className="block text-center w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200 focus:outline-none px-4 py-2"
+       className="block text-center w-full text-sm font-sans text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer hover:bg-gray-200 focus:outline-none px-4 py-2"
       >
         {logo ? "Arquivo escolhido: " + nameLogo : "Selecione um Arquivo" }
       </label>
@@ -37,7 +37,7 @@ const Logo = ({ label, onChange  }) => {
         <img 
           src={logo} 
           alt="logo"
-          className="mt-4 object-cover"
+          className="mt-4 object-cover max-w-[250px] max-h-[124px]"
         />
       )}
     </div>
