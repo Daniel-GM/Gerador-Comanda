@@ -8,7 +8,7 @@ import Dimension from './components/input/Dimension'
 import EnableMenu from './components/input/EnableMenu'
 import InstanceName from './components/input/InstanceName'
 import Logo from './components/input/Logo'
-import Preview from './preview/preview'
+import Preview from './preview/Preview'
 
 function App() {
   const [logo, setLogo] = useState('menu-white.png')
