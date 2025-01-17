@@ -7,8 +7,6 @@ const Preview = ({ cardapio, instanceName, logo, height, width, maxHeight, maxWi
   const [qrcodeComanda, setQrcodeComanda] = useState(``);
   const [qrcodeCardapio, setQrcodeCardapio] = useState(``);
 
-  console.log(qrcodeComanda)
-
   useEffect(() => {
     setQrcodeComanda(`https://${instanceName}.sigedelivery.com.br/consulta/#/?table=${instanceName}${number}&domain=${instanceName}`);
     setQrcodeCardapio(`https://${instanceName}.sigedelivery.com.br/cardapio-digital`);

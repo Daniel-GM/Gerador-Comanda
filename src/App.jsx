@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { toPng } from 'html-to-image';
+import JSZip from 'jszip';
 
-import Generate from './components/button/Generate'
+// import Generate from './components/button/Generate'
 import ColorSeletion from './components/input/ColorSeletion'
 import CountCommand from './components/input/CountCommand'
 import Dimension from './components/input/Dimension'
@@ -25,6 +27,32 @@ function App() {
   const [colorText, setColorText] = useState('#ffffff')
 
   const [enableMenu, setEnableMenu] = useState(false)
+
+  const handleDownloadAsZip = async () => {
+    const zip = new JSZip();
+    const previews = document.querySelectorAll('[data-preview-id]');
+
+    for (const preview of previews) {
+      try {
+        const dataUrl = await toPng(preview)
+        const base64Data = dataUrl.split(',')[1]
+        const id = preview.dataset.previewId
+        const newName = id.replace('preview-', '')
+
+        let fileName = id.includes('cardapio') ? 'cardapio.png' : `comanda-${Number(newName) + Number(minNumber)}.png`
+        zip.file(fileName, base64Data, { base64: true })
+      } catch (error) {
+        console.error(`Erro ao gerar imagem para ${preview.dataset.previewId}:`, error)
+      }
+    }
+
+    zip.generateAsync({ type: 'blob' }).then((content) => {
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(content)
+      link.download = `${instanceName}-comandas.zip`
+      link.click()
+    })
+  }
 
   return (
     <div className="min-h-screen bg-gray-900">
@@ -84,7 +112,12 @@ function App() {
               init={false}
               onChange={(value) => setEnableMenu(value)}
             />
-            <Generate label="Gerar Comanda" />
+            <button
+              onClick={handleDownloadAsZip}
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white border border-gray-300 py-2 font-bold rounded-lg"
+            >
+              Baixar Comandas
+            </button>
           </div>
 
           <div className="p-6 rounded-lg shadow-sm mx-auto grid grid-cols-1  md:grid-cols-2 gap-4">
@@ -116,42 +149,49 @@ function App() {
         <div className="grid grid-cols-1 gap-8 mt-8">
           <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 xl:grid-cols-4 gap-4 p-6 bg-gray-800/50 border-gray-700 border-2 rounded-lg shadow-sm place-items-center">
             {enableMenu && (
-              <Preview
-                cardapio={true}
-                instanceName={instanceName}
-                logo={logo}
-                height={height}
-                width={width}
-                maxHeight={maxHeight}
-                maxWidth={maxWidth}
-                colorCommand={colorCommand}
-                colorText={colorText}
-              />
-            )}
-            {Array.from(
-              { length: maxNumber - minNumber + 1 },
-              (_, index) => (
-                console.log(index),
-                console.log(minNumber),
+              <div
+                id="preview-cardapio"
+                data-preview-id="preview-cardapio"  
+              >
                 <Preview
-                  key={index}
-                  cardapio={false}
+                  cardapio={true}
                   instanceName={instanceName}
                   logo={logo}
                   height={height}
                   width={width}
                   maxHeight={maxHeight}
                   maxWidth={maxWidth}
-                  number={Number(minNumber) + index}
                   colorCommand={colorCommand}
                   colorText={colorText}
                 />
+              </div>
+            )}
+            {Array.from(
+              { length: maxNumber - minNumber + 1 },
+              (_, index) => (
+                <div
+                  key={index}
+                  id={`preview-${index}`}
+                  data-preview-id={`preview-${index}`}
+                >
+                  <Preview
+                    key={index}
+                    cardapio={false}
+                    instanceName={instanceName}
+                    logo={logo}
+                    height={height}
+                    width={width}
+                    maxHeight={maxHeight}
+                    maxWidth={maxWidth}
+                    number={Number(minNumber) + index}
+                    colorCommand={colorCommand}
+                    colorText={colorText}
+                  />
+                </div>
               )
             )}
           </div>
         </div>
-      </div>
-      <div>
       </div>
     </div>
   )
