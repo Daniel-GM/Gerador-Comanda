@@ -1,7 +1,7 @@
 import { useState, memo } from 'react'
 
-const InstanceName = ({ label, onChange }) => {
-  const [instanceName, setInstanceName] = useState('')
+const InstanceName = ({ label, onChange, name }) => {
+  const [instanceName, setInstanceName] = useState(name)
 
   const handleChange = (value) => {
     setInstanceName(value)

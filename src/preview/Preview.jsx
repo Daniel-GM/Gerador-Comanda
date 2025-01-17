@@ -1,10 +1,18 @@
-import { useState, memo } from 'react'
+import { useState, useEffect, memo } from 'react'
 import QRCode from 'react-qr-code';
 
 const MemoizedQRCode = memo(QRCode);
 
-const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth, number, colorCommand, colorText }) => {
-  const [qrcodeValue, setQrCodeValue] = useState('https://menu.sigedelivery.com.br/consulta/#/?table=menu1&domain=menu');
+const Preview = ({ cardapio, instanceName, logo, height, width, maxHeight, maxWidth, number = '', colorCommand, colorText }) => {
+  const [qrcodeComanda, setQrcodeComanda] = useState(``);
+  const [qrcodeCardapio, setQrcodeCardapio] = useState(``);
+
+  console.log(qrcodeComanda)
+
+  useEffect(() => {
+    setQrcodeComanda(`https://${instanceName}.sigedelivery.com.br/consulta/#/?table=${instanceName}${number}&domain=${instanceName}`);
+    setQrcodeCardapio(`https://${instanceName}.sigedelivery.com.br/cardapio-digital`);
+  }, [instanceName, number]);
 
   const styleBackground = {
     height: "508px",
@@ -32,14 +40,10 @@ const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth, number, c
     textAlign: "center"
   }
 
-  const styleSigesis = {
-    maxWidth: "180px"
-  }
-
   return (
     <div
       style={styleBackground}
-      className={`flex flex-col items-center ${!cardapio ? "justify-between" : "justify-between"}`}
+      className={`mt-4 flex flex-col items-center justify-center ${!cardapio ? "justify-between" : "justify-between"}`}
     >
       <div 
         className='flex justify-center items-center flex-col'
@@ -50,9 +54,9 @@ const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth, number, c
           src={logo}
           alt="Logo do cliente"
           style={styleLogo}
-          className='mt-2'
         />
       </div>
+
       {/* Cardápio Digital */}
       {
         cardapio ? (
@@ -67,8 +71,8 @@ const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth, number, c
       }
       {/* QR code */}
       <div>
-        <MemoizedQRCode
-          value={qrcodeValue}
+        <QRCode
+          value={cardapio ? qrcodeCardapio : qrcodeComanda}
           size={230}
           className={`mt-2 bg-white p-3 ${cardapio ? "rounded-lg" : "rounded-t-lg"}`}
         />
@@ -104,7 +108,7 @@ const Preview = ({ cardapio, logo, height, width, maxHeight, maxWidth, number, c
             <img
               src="logo-sigesis-branca.png"
               alt="Logo Sigesis"
-              style={styleSigesis}
+              style={{maxWidth: "180px"}}
             />
           </p>
         )

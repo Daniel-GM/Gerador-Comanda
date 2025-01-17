@@ -1,11 +1,12 @@
 import { useState } from "react";
 
-const EnableMenu = ({ label, init }) => {
+const EnableMenu = ({ label, init, onChange }) => {
   const [checked, setChecked] = useState(init);
 
   const handleToggle = () => {
     const newChecked = !checked;
     setChecked(newChecked);
+    onChange(newChecked);
   };
 
   return (
