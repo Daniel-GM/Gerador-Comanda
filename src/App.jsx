@@ -28,7 +28,16 @@ function App() {
 
   const [enableMenu, setEnableMenu] = useState(false)
 
+  const [validateInstance, setValidateInstance] = useState(false)
+
   const handleDownloadAsZip = async () => {
+    verificaInstancia()
+    console.log(validateInstance)
+    if (!validateInstance) {
+      alert('Instância inválida')
+      return
+    }
+
     const zip = new JSZip();
     const previews = document.querySelectorAll('[data-preview-id]');
 
@@ -52,6 +61,23 @@ function App() {
       link.download = `${instanceName}-comandas.zip`
       link.click()
     })
+  }
+
+  const verificaInstancia = () => {
+    const url = `https://www.${instanceName}.sigedelivery.com.br`
+    fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.status && data.status.http_code === 200) {
+          setValidateInstance(true)
+        } else {
+          setValidateInstance(false)
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao verificar a instância: ', error)
+        setValidateInstance(false)
+      })
   }
 
   return (
@@ -151,7 +177,7 @@ function App() {
             {enableMenu && (
               <div
                 id="preview-cardapio"
-                data-preview-id="preview-cardapio"  
+                data-preview-id="preview-cardapio"
               >
                 <Preview
                   cardapio={true}
