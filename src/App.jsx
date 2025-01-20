@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { toPng } from 'html-to-image';
+import axios from 'axios';
 import JSZip from 'jszip';
 
 // import Generate from './components/button/Generate'
@@ -19,6 +20,7 @@ function App() {
   const [maxWidth] = useState(250)
 
   const [instanceName, setInstanceName] = useState('menu')
+  const [isInstanceValid, setIsInstanceValid] = useState(null)
 
   const [minNumber, setMinNumber] = useState(1)
   const [maxNumber, setMaxNumber] = useState(2)
@@ -28,16 +30,26 @@ function App() {
 
   const [enableMenu, setEnableMenu] = useState(false)
 
-  const [validateInstance, setValidateInstance] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const checkInstance = async () => {
+    setIsLoading(true)
+    const url = `https://www.${instanceName}.sigedelivery.com.br`
+    const proxyUrl = `https://little-poetry-ddcf.danielgomesmoura.workers.dev/?url=${encodeURIComponent(url)}`
+
+    try {
+      const response = await axios.get(proxyUrl)
+      if (response.status === 200) {
+        setIsInstanceValid(true)
+        handleDownloadAsZip()
+      }
+    } catch (error) {
+      setIsInstanceValid(false)
+    }
+    setIsLoading(false)
+  }
 
   const handleDownloadAsZip = async () => {
-    verificaInstancia()
-    console.log(validateInstance)
-    if (!validateInstance) {
-      alert('Instância inválida')
-      return
-    }
-
     const zip = new JSZip();
     const previews = document.querySelectorAll('[data-preview-id]');
 
@@ -63,25 +75,17 @@ function App() {
     })
   }
 
-  const verificaInstancia = () => {
-    const url = `https://www.${instanceName}.sigedelivery.com.br`
-    fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.status && data.status.http_code === 200) {
-          setValidateInstance(true)
-        } else {
-          setValidateInstance(false)
-        }
-      })
-      .catch(error => {
-        console.error('Erro ao verificar a instância: ', error)
-        setValidateInstance(false)
-      })
-  }
-
   return (
     <div className="min-h-screen bg-gray-900">
+      {isLoading ? 
+      <>
+        <div className="fixed top-0 left-0 z-50 w-full h-full bg-gray-900/50 flex justify-center items-center">
+          <div className="bg-emerald-600 p-4 rounded-lg shadow-lg">
+            <p className="text-center font-bold">Verificando instância...</p>
+          </div>
+        </div>
+      </>
+      : null}
       <div className="container mx-auto p-6 ">
         <div className="grid grid-cols-1 custom-lg:grid-cols-2 gap-8">
           <div className="space-y-4 bg-gray-800/50 p-6 border-gray-700 border-2 rounded-lg shadow-sm">
@@ -95,6 +99,17 @@ function App() {
               name={instanceName}
               onChange={(value) => setInstanceName(value)}
             />
+            {isInstanceValid !== null && (
+              <p
+                className={`text-center font-bold ${
+                  isInstanceValid ? 'text-green-500' : 'text-red-500'
+                }`}
+              >
+                {isInstanceValid
+                  ? 'Instância encontrada!'
+                  : 'Instância não encontrada.'}
+              </p>
+            )}
             <div className="grid grid-cols-2 gap-4">
               <CountCommand
                 label="Número Inicial"
@@ -139,7 +154,7 @@ function App() {
               onChange={(value) => setEnableMenu(value)}
             />
             <button
-              onClick={handleDownloadAsZip}
+              onClick={checkInstance}
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white border border-gray-300 py-2 font-bold rounded-lg"
             >
               Baixar Comandas
@@ -177,7 +192,7 @@ function App() {
             {enableMenu && (
               <div
                 id="preview-cardapio"
-                data-preview-id="preview-cardapio"
+                data-preview-id="preview-cardapio"  
               >
                 <Preview
                   cardapio={true}
