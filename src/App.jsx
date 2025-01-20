@@ -10,6 +10,7 @@ import Dimension from './components/input/Dimension'
 import EnableMenu from './components/input/EnableMenu'
 import InstanceName from './components/input/InstanceName'
 import Logo from './components/input/Logo'
+import LoadingOverlay from './components/loading/LoadingOverlay'
 import Preview from './preview/Preview'
 
 function App() {
@@ -30,10 +31,11 @@ function App() {
 
   const [enableMenu, setEnableMenu] = useState(false)
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoadingInstance, setIsLoadingInstance] = useState(false)
+  const [isLoadingDownload, setIsLoadingDownload] = useState(false)
 
   const checkInstance = async () => {
-    setIsLoading(true)
+    setIsLoadingInstance(true)
     const url = `https://www.${instanceName}.sigedelivery.com.br`
     const proxyUrl = `https://little-poetry-ddcf.danielgomesmoura.workers.dev/?url=${encodeURIComponent(url)}`
 
@@ -46,10 +48,11 @@ function App() {
     } catch (error) {
       setIsInstanceValid(false)
     }
-    setIsLoading(false)
+    setIsLoadingInstance(false)
   }
 
   const handleDownloadAsZip = async () => {
+    setIsLoadingDownload(true)
     const zip = new JSZip();
     const previews = document.querySelectorAll('[data-preview-id]');
 
@@ -73,19 +76,13 @@ function App() {
       link.download = `${instanceName}-comandas.zip`
       link.click()
     })
+    setIsLoadingDownload(false)
   }
 
   return (
     <div className="min-h-screen bg-gray-900">
-      {isLoading ? 
-      <>
-        <div className="fixed top-0 left-0 z-50 w-full h-full bg-slate-900/50 flex justify-center items-center">
-          <div className="bg-emerald-600 p-4 rounded-lg shadow-lg border-2 border-gray-50">
-            <p className="text-center font-bold">Verificando instância...</p>
-          </div>
-        </div>
-      </>
-      : null}
+      <LoadingOverlay message="Verificando instância..." isLoading={isLoadingInstance} />
+      <LoadingOverlay message="Preparando o download..." isLoading={isLoadingDownload} />
       <div className="container mx-auto p-6 ">
         <div className="grid grid-cols-1 custom-lg:grid-cols-2 gap-8">
           <div className="space-y-4 bg-gray-800/50 p-6 border-gray-700 border-2 rounded-lg shadow-sm">
@@ -97,13 +94,15 @@ function App() {
             <InstanceName
               label="Nome da Instância"
               name={instanceName}
-              onChange={(value) => setInstanceName(value)}
+              onChange={(value) => {
+                setInstanceName(value)
+                setIsInstanceValid(null)
+              }}
             />
             {isInstanceValid !== null && (
               <p
-                className={`text-center font-bold ${
-                  isInstanceValid ? 'text-green-500' : 'text-red-500'
-                }`}
+                className={`text-center font-bold ${isInstanceValid ? 'text-green-500' : 'text-red-500'
+                  }`}
               >
                 {isInstanceValid
                   ? 'Instância encontrada!'
@@ -192,7 +191,7 @@ function App() {
             {enableMenu && (
               <div
                 id="preview-cardapio"
-                data-preview-id="preview-cardapio"  
+                data-preview-id="preview-cardapio"
               >
                 <Preview
                   cardapio={true}
