@@ -79,8 +79,8 @@ function App() {
     <div className="min-h-screen bg-gray-900">
       {isLoading ? 
       <>
-        <div className="fixed top-0 left-0 z-50 w-full h-full bg-slate-500/50 flex justify-center items-center">
-          <div className="bg-emerald-600 p-4 rounded-lg shadow-lg">
+        <div className="fixed top-0 left-0 z-50 w-full h-full bg-slate-900/50 flex justify-center items-center">
+          <div className="bg-emerald-600 p-4 rounded-lg shadow-lg border-2 border-gray-50">
             <p className="text-center font-bold">Verificando instância...</p>
           </div>
         </div>
