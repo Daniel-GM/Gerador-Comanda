@@ -30,7 +30,10 @@ function App() {
 
   const [enableMenu, setEnableMenu] = useState(false)
 
+  const [isLoading, setIsLoading] = useState(false)
+
   const checkInstance = async () => {
+    setIsLoading(true)
     const url = `https://www.${instanceName}.sigedelivery.com.br`
     const proxyUrl = `https://little-poetry-ddcf.danielgomesmoura.workers.dev/?url=${encodeURIComponent(url)}`
 
@@ -43,6 +46,7 @@ function App() {
     } catch (error) {
       setIsInstanceValid(false)
     }
+    setIsLoading(false)
   }
 
   const handleDownloadAsZip = async () => {
@@ -73,6 +77,15 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-900">
+      {isLoading ? 
+      <>
+        <div className="fixed top-0 left-0 z-50 w-full h-full bg-gray-900/50 flex justify-center items-center">
+          <div className="bg-emerald-600 p-4 rounded-lg shadow-lg">
+            <p className="text-center font-bold">Verificando instância...</p>
+          </div>
+        </div>
+      </> 
+      : null}
       <div className="container mx-auto p-6 ">
         <div className="grid grid-cols-1 custom-lg:grid-cols-2 gap-8">
           <div className="space-y-4 bg-gray-800/50 p-6 border-gray-700 border-2 rounded-lg shadow-sm">
