@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, memo } from 'react'
 
 const SelectTextColor = ({ label, init, onChange }) => {
   const [selectedColor, setSelectedColor] = useState(init || '#ffffff')
@@ -50,4 +50,4 @@ const SelectTextColor = ({ label, init, onChange }) => {
   )
 }
 
-export default SelectTextColor
+export default memo(SelectTextColor)
