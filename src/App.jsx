@@ -12,9 +12,10 @@ import InstanceName from './components/input/InstanceName'
 import Logo from './components/input/Logo'
 import LoadingOverlay from './components/loading/LoadingOverlay'
 import Preview from './preview/Preview'
+import SelectTextColor from './components/input/SelectTextColor';
 
 function App() {
-  const [logo, setLogo] = useState('menu-white.png')
+  const [logo, setLogo] = useState('logo-menu.png')
   const [height, setHeight] = useState(60)
   const [width, setWidth] = useState(187)
   const [maxHeight] = useState(124)
@@ -141,7 +142,7 @@ function App() {
                 init={"#0A7269"}
                 onChange={(value) => setColorCommand(value)}
               />
-              <ColorSeletion
+              <SelectTextColor
                 label="Cor do Texto"
                 init={"#ffffff"}
                 onChange={(value) => setColorText(value)}

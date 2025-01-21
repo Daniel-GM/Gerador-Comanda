@@ -43,9 +43,9 @@ const Preview = ({ cardapio, instanceName, logo, height, width, maxHeight, maxWi
       style={styleBackground}
       className={`mt-4 flex flex-col items-center justify-center ${!cardapio ? "justify-between" : "justify-between"}`}
     >
-      <div 
+      <div
         className='flex justify-center items-center flex-col'
-        style={{height: maxHeight, width: maxWidth}}
+        style={{ height: maxHeight, width: maxWidth }}
       >
         {/* Logo cliente */}
         <img
@@ -68,7 +68,7 @@ const Preview = ({ cardapio, instanceName, logo, height, width, maxHeight, maxWi
         ) : null
       }
       {/* QR code */}
-      <div>
+      <div className='relative'>
         <QRCode
           value={cardapio ? qrcodeCardapio : qrcodeComanda}
           size={230}
@@ -91,12 +91,20 @@ const Preview = ({ cardapio, instanceName, logo, height, width, maxHeight, maxWi
       {/* Rodapé */}
       {
         (!cardapio) ? (
-          <p
-            className="text-2xl mb-2"
-            style={styleFont}
-          >
-            www.sigesis.com.br
-          </p>
+          <div className='flex items-center'>
+            <img 
+              src={colorText == "#ffffff" ? "nuvem-w.png" : "nuvem-b.png"}
+              alt="Logo Sigesis" 
+              className='mb-5 mr-1'
+              style={{ maxWidth: "40px" }} 
+            />
+            <p
+              className="text-xl mb-3"
+              style={styleFont}
+            >
+              www.sigesis.com.br
+            </p>
+          </div>
         ) : (
           <p
             className="text-xl mt-1 mb-2 flex flex-col items-center"
@@ -104,9 +112,9 @@ const Preview = ({ cardapio, instanceName, logo, height, width, maxHeight, maxWi
           >
             Desenvolvido por
             <img
-              src="logo-sigesis-branca.png"
+              src={colorText == "#ffffff" ? "logo-sigesis-w.png" : "logo-sigesis-b.png"}
               alt="Logo Sigesis"
-              style={{maxWidth: "180px"}}
+              style={{ maxWidth: "180px" }}
             />
           </p>
         )
